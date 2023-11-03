@@ -8,7 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TasksService {
@@ -53,12 +55,24 @@ public class TasksService {
         return new ResponseEntity<>("Delete Success",HttpStatus.OK);
     }
 
-    public ResponseEntity<Tasks> updateTask(Tasks task) {
+    public ResponseEntity<Tasks> updateTask(Tasks updatedTask) {
         try {
-            return new ResponseEntity<>(taskDao.save(task), HttpStatus.OK);
-        }catch (Exception e){
+            int taskId = updatedTask.getId();
+            Optional<Tasks> existingTaskOptional = taskDao.findById(taskId);
+
+            if (existingTaskOptional.isPresent()) {
+                Tasks existingTask = existingTaskOptional.get();
+
+                existingTask.setStatus(updatedTask.getStatus());
+                existingTask.setLastUpdatedDateTime(new Date());
+
+                return new ResponseEntity<>(taskDao.save(existingTask), HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(new Tasks(), HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
             e.printStackTrace();
+            return new ResponseEntity<>(new Tasks(), HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(new Tasks(), HttpStatus.BAD_REQUEST);
     }
 }
