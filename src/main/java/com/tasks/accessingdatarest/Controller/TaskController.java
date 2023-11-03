@@ -1,18 +1,12 @@
 package com.tasks.accessingdatarest.Controller;
 
-import ch.qos.logback.core.status.Status;
-import com.tasks.accessingdatarest.Model.Tasks;
 import com.tasks.accessingdatarest.Model.Tasks;
 import com.tasks.accessingdatarest.Service.TasksService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -48,7 +42,7 @@ public class TaskController {
     }
 
     @PutMapping("update")
-    public ResponseEntity<Tasks> updateTaskByStatus(@RequestParam int id,@RequestParam com.tasks.accessingdatarest.Model.Status status){
-        return tasksService.updateTaskByStatus(id,status);
+    public ResponseEntity<Tasks> updateTaskByStatus(@RequestBody Tasks task){
+        return tasksService.updateTask(task);
     }
 }

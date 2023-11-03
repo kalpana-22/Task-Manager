@@ -1,11 +1,9 @@
 package com.tasks.accessingdatarest.Service;
 
 import com.tasks.accessingdatarest.Dao.TaskDao;
-import com.tasks.accessingdatarest.Model.Status;
 import com.tasks.accessingdatarest.Model.Tasks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -54,9 +52,9 @@ public class TasksService {
         return new ResponseEntity<>("Delete Success",HttpStatus.OK);
     }
 
-    public ResponseEntity<Tasks> updateTaskByStatus(int id, Status status) {
+    public ResponseEntity<Tasks> updateTask(Tasks task) {
         try {
-            return new ResponseEntity<>(taskDao.findByIdAndAndStatus(id,status), HttpStatus.OK);
+            return new ResponseEntity<>(taskDao.save(task), HttpStatus.OK);
         }catch (Exception e){
             e.printStackTrace();
         }
