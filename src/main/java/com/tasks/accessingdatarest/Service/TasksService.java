@@ -43,6 +43,7 @@ public class TasksService {
     }
 
     public ResponseEntity<String> addTask(Tasks task) {
+        task.setUserId(1);//Until multiple user access creation
         taskDao.save(task);
         return new ResponseEntity<>("Create Success",HttpStatus.OK);
     }
